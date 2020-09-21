@@ -1,0 +1,65 @@
+
+
+<body>
+
+
+<div style="width:auto;float:left;z-index:-1">
+    <img id="HLMusic" src="Master.jpg" style="cursor:crosshair" />
+</div>
+<div style="right:0;height:100%;padding-left:5px; background-color:#fff;position:fixed;z-index: 10;width:250; border-left:3px solid black;">
+    <div id="numdisplay"></div>
+    <div id="controls" style="position:fixed;bottom:30">
+        <button id="HLClear" onClick="HLClearDisplay()">Clear</button><br />
+        <label for="HLScale" >Scale values</label><input id="HLScale" type="checkbox" onchange="redrawValues()" /> <input id="HLPercent" type="number" onchange="redrawValues()" value="86" style="width:4em;" /><br />
+        <label>Line count: </label><label id="HLLineCount">0</label>
+    </div>
+</div>
+
+<img id="HLcursor" src="cursor.png" style="display:none;position:absolute;z-index:10;" />
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+    <!--
+
+
+    var HLvalues = [];
+
+    function HLClearDisplay() {
+        HLvalues = [];
+        redrawValues();
+    }
+    
+    $(document).ready(function() {
+        $("#HLMusic").on("click", function(event) {
+            var x = event.pageX - this.offsetLeft;
+            var y = event.pageY - this.offsetTop;
+
+            HLvalues.push(y);
+
+            $("#HLcursor").css("left", event.pageX-17).css("top", event.pageY-17).css("display", "initial");
+
+            redrawValues();
+
+            
+        });
+    });
+
+    function redrawValues() {
+        $("#numdisplay").html(""); 
+
+        for (var i in HLvalues) {
+            if ($("#HLScale").prop("checked")) {
+                $("#numdisplay").append((Math.round(HLvalues[i] * ( 0.01 * $("#HLPercent").val() ))) + "<br />");
+            } else {
+                $("#numdisplay").append(HLvalues[i] + "<br />");
+            }
+            
+        }
+        $("#HLLineCount").html(HLvalues.length);
+    }
+    
+    // -->
+    </script>
+</body>
