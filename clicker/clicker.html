@@ -10,8 +10,9 @@
     <div id="numdisplay"></div>
     <div id="controls" style="position:fixed;bottom:30">
         <button id="HLClear" onClick="HLClearDisplay()">Clear</button><br />
-        <label for="HLScale" >Scale values</label><input id="HLScale" type="checkbox" onchange="redrawValues()" /> <input id="HLPercent" type="number" onchange="redrawValues()" value="86" style="width:4em;" /><br />
-        <label>Line count: </label><label id="HLLineCount">0</label>
+        <label for="HLScale" >Scale values</label><input id="HLScale" type="checkbox" checked onchange="redrawValues()" /> <input id="HLPercent" type="number" onchange="redrawValues()" value="86" style="width:4em;" /><br />
+        <label>Line count: </label><label id="HLLineCount">0</label><br /><br />
+        <label><strong>Select Image: </strong></label><input type="file" id="imgsel" name="imgsel" accept="image/png, image/jpeg">
     </div>
 </div>
 
@@ -44,6 +45,15 @@
 
             
         });
+    });
+
+    $("#imgsel").change(function() {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#HLMusic').attr('src', e.target.result);
+        }
+        reader.readAsDataURL($('#imgsel').prop("files")[0]);
     });
 
     function redrawValues() {
