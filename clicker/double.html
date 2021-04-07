@@ -1,0 +1,96 @@
+
+
+<body>
+
+
+<div style="width:auto;float:left;z-index:-1">
+    <img id="HLMusic" src="Master.jpg" style="cursor:crosshair" />
+</div>
+<div style="right:0;height:100%;padding-left:5px; background-color:#fff;position:fixed;z-index: 10;width:250; border-left:3px solid black;">
+    <div id="numdisplay"></div>
+    <hr />
+    <div id="numdisplay2"></div>
+    <hr />
+    <div id="controls" style="position:fixed;bottom:30">
+        <button id="HLClear" onClick="HLClearDisplay()">Clear</button><br />
+        <label for="HLScale" >Scale values</label><input id="HLScale" type="checkbox" checked onchange="redrawValues()" /> <input id="HLPercent" type="number" onchange="redrawValues()" value="86" style="width:4em;" /><br />
+        <label>Line count: </label><label id="HLLineCount">0</label><br /><br />
+        <label><strong>Select Image: </strong></label><input type="file" id="imgsel" name="imgsel" accept="image/png, image/jpeg">
+    </div>
+</div>
+
+<img id="HLcursor" src="cursor.png" style="display:none;position:absolute;z-index:10;" />
+<img id="HLcursor2" src="cursor2.png" style="display:none;position:absolute;z-index:10;" />
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script type="text/javascript">
+    <!--
+
+
+    var HLvalues = [];
+    var HLvalues2 = [];
+    var flipflop = true;
+
+    function HLClearDisplay() {
+        HLvalues = [];
+        HLvalues2 = [];
+        redrawValues();
+    }
+    
+    $(document).ready(function() {
+        $("#HLMusic").on("click", function(event) {
+            var x = event.pageX - this.offsetLeft;
+            var y = event.pageY - this.offsetTop;
+
+            if (flipflop) {
+                HLvalues.push(y);
+                $("#HLcursor").css("left", event.pageX-17).css("top", event.pageY-17).css("display", "initial");
+            } else  {
+                HLvalues2.push(y);
+                $("#HLcursor2").css("left", event.pageX-17).css("top", event.pageY-17).css("display", "initial");
+            }
+
+            redrawValues();
+
+            flipflop = !flipflop;
+
+        });
+    });
+
+    $("#imgsel").change(function() {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#HLMusic').attr('src', e.target.result);
+        }
+        reader.readAsDataURL($('#imgsel').prop("files")[0]);
+    });
+
+    function redrawValues() {
+        $("#numdisplay").html(""); 
+        $("#numdisplay2").html(""); 
+
+        for (var i in HLvalues) {
+            if ($("#HLScale").prop("checked")) {
+                $("#numdisplay").append((Math.round(HLvalues[i] * ( 0.01 * $("#HLPercent").val() ))) + "<br />");
+            } else {
+                $("#numdisplay").append(HLvalues[i] + "<br />");
+            }
+        }
+
+        for (var i in HLvalues2) {
+            if ($("#HLScale").prop("checked")) {
+                $("#numdisplay2").append((Math.round(HLvalues2[i] * ( 0.01 * $("#HLPercent").val() ))) + "<br />");
+            } else {
+                $("#numdisplay2").append(HLvalues2[i] + "<br />");
+            }
+        }
+        
+        $("#HLLineCount").html(HLvalues.length);
+    }
+    
+    // -->
+    </script>
+</body>
